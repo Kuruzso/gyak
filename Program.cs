@@ -1,72 +1,78 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MySqlConnector; //NuGet-tel feltelepítettük a MySqlConnector csomagot
+using System.IO;
 
-namespace adatbazis
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MySqlConnector; //NuGet-tel feltelepítettük a MySqlConnector csomagot
-
-namespace adatbazis
+namespace slagerlista
 {
     class Program
     {
         static void Main(string[] args)
         {
-            string connectionString; //A kapcsolat létrehozásához szükséges adatok
-            connectionString = @"server = localhost;user = root;database = proba";
-            MySqlConnection kapcsolat; //Az adatbázissal kapcsolódunk (még egyéb műveletet nem végez)
-            kapcsolat = new MySqlConnection(connectionString);
-            List<string> adatbazislista = new List<string>();
-            try
+            string[] sorok = File.ReadAllLines("adatok.txt");
+            string valasz = "";
+
+            while (valasz != "3")
             {
-                kapcsolat.Open(); //Ha nem jók a kapcsolat létrehozásához szüséges adatok, akkor itt áll le,
-                                  //ha sikeres, akkor innentől elérhető az adatbázis
-                string sql = "SELECT * FROM személy"; //A futtatandó lekérdezés parancsa
-                MySqlCommand mSqlCmd = new MySqlCommand(sql, kapcsolat); //A parancs futtatásához szükséges objektum,
+                Console.WriteLine("Adja meg mit szeretne csinálni");
+                Console.WriteLine("[1]Zeneszám felvétele");
+                Console.WriteLine("[2]Slágerlista megtekintése");
+                Console.WriteLine("[3]Kilépés");
+                valasz = Console.ReadLine();
+                List<string> zenelista = new List<string>();
+                List<string> szerzolista = new List<string>();
+                List<int> pontozas = new List<int>();
 
-                string nev = "sanyi";
-                string telepules = "peru";
-
-                MySqlCommand hozzaad = new MySqlCommand($"INSERT INTO `személy` (`nev`, `telepules`) VALUES('{nev}', '{telepules}')",kapcsolat);
-                hozzaad.ExecuteNonQuery();
-
-                //adott parancsot a kapcsolattal összeköti
-                MySqlDataReader adatok = mSqlCmd.ExecuteReader();//A parancsot futtatjuk,
-                                                                 //a keletkező adatokat tároljuk
-                                                                 //ahhoz hasonló, mint a StreamReader
-               
-
-                while (adatok.Read()) //Az adatok.Read() beolvas egy rekordot (sort) az eredménytáblából
+                int szamlalo = 0;
+                if (valasz == "1")
                 {
-                    //összeállítok egy stringet az adatokból
-                    StringBuilder ujString = new StringBuilder();
-                    for (int i = 0; i < adatok.FieldCount; i++)
+                    for (int i = 0; i < 11; i++)
                     {
-                        ujString.Append(adatok[i] + " ");
-                    }
-                    adatbazislista.Add(Convert.ToString(ujString)); //Az adatok utáni index jelzi,
-                                                                    //hogy hányadik mezőt kérem az eredménytáblából
-                }
-                for (int i = 0; i < adatbazislista.Count; i++)
-                {
-                    Console.WriteLine(adatbazislista[i]);
-                }
-                kapcsolat.Close(); //A műveletek befejezése után mindig zárjuk a kapcsolatot!
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Valami hiba történt!");
-            }
+                        Console.WriteLine("Adja meg az egyik kedvenc zenéjét");
+                        string zene = Console.ReadLine();
+                        Console.WriteLine("Adja meg a szerzőjét");
+                        string szerzo = Console.ReadLine();
 
-            Console.ReadKey();
+
+
+                        szamlalo = +1;
+
+                        zenelista.Add(zene);
+                        szerzolista.Add(szerzo);
+                        pontozas.Add(pontszam);
+
+                        zenelista.Sort();
+                        szerzolista.Sort();
+                        pontozas.Sort();
+
+                        StreamWriter sw = File.AppendText("adatok.txt");
+
+
+                        sw.WriteLine(zene + "\t" + szerzo + "");
+
+
+
+                        sw.Close();
+
+                    }
+                }
+                else if (valasz == "2")
+                {
+
+                    for (int i = 0; i < 11; i++)
+                    {
+                        Console.WriteLine("Cím:{0} , Szerző:{1} , Csillag{3}", zenelista[i], szerzolista[i], pontozas[i]);
+
+                    }
+                }
+                else if (valasz == "3")
+                {
+                    System.Environment.Exit(0);
+                }
+            }
+            
         }
     }
 }
-
