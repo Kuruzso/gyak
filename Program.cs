@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +23,7 @@ namespace slagerlista
                 valasz = Console.ReadLine();
                 List<string> zenelista = new List<string>();
                 List<string> szerzolista = new List<string>();
-                List<int> pontozas = new List<int>();
+              
 
                 int szamlalo = 0;
                 if (valasz == "1")
@@ -41,11 +41,11 @@ namespace slagerlista
 
                         zenelista.Add(zene);
                         szerzolista.Add(szerzo);
-                        pontozas.Add(pontszam);
+                       
 
                         zenelista.Sort();
                         szerzolista.Sort();
-                        pontozas.Sort();
+                   
 
                         StreamWriter sw = File.AppendText("adatok.txt");
 
@@ -63,7 +63,7 @@ namespace slagerlista
 
                     for (int i = 0; i < 11; i++)
                     {
-                        Console.WriteLine("Cím:{0} , Szerző:{1} , Csillag{3}", zenelista[i], szerzolista[i], pontozas[i]);
+                        Console.WriteLine("Cím:{0} , Szerző:{1} , Csillag:{3}", zenelista[i], szerzolista[i],1);
 
                     }
                 }
